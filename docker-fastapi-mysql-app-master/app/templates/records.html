@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %}
+    <h2>学習記録</h2>
+    <hr>
+    <ul class="h4"style="max-width: 80%; padding:20px">
+        <li class="list-group-item active" aria-current="true" style="background-color: #d93762; border:none;">あなたのカード登録数</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            単語 
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ articles }}個</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            クイズ
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ quizzes }}個</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
+            合計
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ articles + quizzes }}個</span>
+        </li>
+    </ul>
+
+    <ul class="h4"style="max-width: 80%; padding:20px">
+        <li class="list-group-item active" aria-current="true" style="background-color: #d93762; border:none;">暗記済カード数</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            単語
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ articles_above_8 }}個</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            クイズ
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ quizzes_above_8 }}個</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-secondary">
+            合計
+            <span class="badge rounded-pill" style="background-color: #c82c55;">{{ articles_above_8 + quizzes_above_8 }}個</span>
+        </li>
+    </ul>
+    <div class="alert alert-secondary" role="alert">
+        <p>
+            ここに広告を表示
+        </p>
+    </div>
+{% endblock %}

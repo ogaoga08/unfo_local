@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="position-absolute top-50 start-50 translate-middle">
+    <h1 style="font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: #b11b43; color: white; padding: 10px;" class="bg-gradient rounded-pill">unfo</h1>
+    <div class="card text-center" style="width: 20rem">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav nav-link" href="{{ url_for('index') }}">サインイン</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav nav-link active" aria-current="true" href="{{ url_for('register') }}">新規登録</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <form action="/register" method="post">
+                <h1 class="h3 mb-3 fw-normal">新規登録</h1>
+                <div class="form-floating" style="margin-top: 25px;">
+                    <input id="username" type="text" name="username" class="form-control" placeholder="ユーザー名またはメールアドレス" required autofocus/>
+                    <label for="username">ユーザー名またはメールアドレス</label>
+                </div>
+                <div class="form-floating" style="margin-top: 25px;">
+                    <input id="password" type="password" name="password" class="form-control" placeholder="パスワード" required/>
+                    <label for="password">パスワード</label>
+                </div>
+                <div class="form-floating" style="margin-top: 25px;">
+                    <input id="password-verify" type="password" class="form-control" placeholder="パスワード(確認)" required/><br>
+                    <label for="password-verify">パスワード(確認)</label>
+                </div>
+                <div>
+                    <button class="w-100 btn btn-lg btn-primary rounded-pill" type="submit" style="background-color: #008989; border: none;">新規登録</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="content justify-content-center">
+        <!-- <h3>カードを登録する</h3> -->
+        <form action="{{ url_for("post_article") }}" method="post" enctype="multipart/form-data">
+            <div class="card text-center" style="width: 20rem;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs nav-fill">
+                        <li class="nav-item" >
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('create_article_page') }}">単語</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('create_quiz_page') }}">クイズ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body" style="width: 100%; padding:20px;">
+                    <div>
+                        <textarea name="title" rows="5" style="width: 100%;" placeholder="暗記したい名目を入力(表)" maxlength="1000" required autofocus></textarea>
+                    </div>
+                    
+                    <div>
+                        <textarea name="body" rows="5" style="width: 100%;" placeholder="暗記したい名目を入力(裏)" maxlength="1000" required></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div>
+                <label for="image">画像</label>
+                <input type="file" id="image" name="image">
+            </div> -->
+            <div class="card text-center" style="width: 20rem; padding:10px 20px;">
+                <label for="name">タグ</label>
+                <div class="form-floating mb-sm-1">
+                    <input type="text" class="form-control" id="hash" name="hash" size="10" placeholder="#" maxlength="50">
+                    <label for="hash">#</label>
+                </div>
+            </div>
+            
+            <div class="card text-center" style="width: 20rem; padding:10px 20px; ">
+                <label for="name">勉強開始日</label>
+                <input type="date" name="study_date" id="myDate" value="" style="height: 4rem;" required>
+            </div>
+
+            <div>
+                <button class="btn btn-lg btn-outline-light rounded-pill" type="submit" style="width: 20rem; background-color: #c82c55;"
+                data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="focus" data-bs-content="登録されました！">
+                    登録
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 現在の日付を取得
+        var today = new Date();
+        // 年月日を取得
+        var year = today.getFullYear();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        // 年月日をyyyy-mm-dd形式に整形
+        var formattedDate = year + '-' + month + '-' + day;
+        // input要素のvalueに設定
+        document.getElementById('myDate').value = formattedDate;
+    </script>
+{% endblock %}

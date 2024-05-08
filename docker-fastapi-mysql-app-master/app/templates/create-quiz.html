@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- <h3>クイズを登録する</h3> -->
+    <form action="{{ url_for("post_quiz") }}" method="post" enctype="multipart/form-data">
+        <div class="card text-center" style="width: 20rem;">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item" >
+                        <a class="nav-link" aria-current="page" href="{{ url_for('create_article_page') }}">単語</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('create_quiz_page') }}">クイズ</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body" style="padding:20px;">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="question" name="question" placeholder="問題文" style="margin: 15px 0px; width:100%" maxlength="1000" required autofocus>
+                    <label for="question">問題文</label>
+                </div>
+                <br>
+                <div id="choices">
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" name="correct" value="0" checked>
+                        </div>
+                        <input type="text" class="form-control" name="choice0" placeholder="選択肢" maxlength="100" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" name="correct" value="1">
+                        </div>
+                        <input type="text" class="form-control" name="choice1" placeholder="選択肢" maxlength="100" required>
+                    </div>
+
+                </div>
+                <div class="btn-group" role="group" style="width: 100%;">
+                    <button class="btn btn-secondary" type="button" onclick="addChoice()" style="width: inherit;">追加</button>
+                    <button class="btn btn-outline-secondary" type="button" onclick="removeChoice()" style="width: inherit;">削除</button>
+                </div>
+                <p style="color: lightslategrey;">*最大4つまで追加可</p>
+            </div>
+        </div>
+
+        <div class="card text-center" style="width: 20rem; padding:10px 20px;">
+            <label for="name">タグ</label>
+            <div class="form-floating mb-sm-1">
+                <input type="text" class="form-control" id="hash" name="hash" size="10" placeholder="#" maxlength="50">
+                <label for="hash">#</label>
+            </div>
+        </div>
+        
+        <div class="card text-center" style="width: 20rem; padding:10px 20px;">
+            <label for="name">勉強開始日</label>
+            <input type="date" name="study_date" id="myDate" value="" style="height: 4rem;" required>
+        </div>
+
+        <button class="btn btn-lg btn-outline-light rounded-pill" type="submit" value="Save Quiz" style="width: 20rem; background-color: #c82c55;">
+            登録
+        </button>
+
+    </form>
+
+    <script>
+        function addChoice() {
+            const choicesDiv = document.getElementById("choices");
+            if (choicesDiv.children.length >= 4) {
+                return;
+            }
+
+            const newChoiceDiv = document.createElement("div");
+            const choiceIndex = choicesDiv.children.length;  // choice2以降のインデックスを取得
+            newChoiceDiv.innerHTML = `
+                <div class="input-group">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="radio" name="correct" value="${choiceIndex}">
+                </div>
+                <input type="text" class="form-control" name="choice${choiceIndex}" placeholder="選択肢" maxlength="100" required>
+                </div>`;
+            choicesDiv.appendChild(newChoiceDiv);
+}
+
+        
+
+        function removeChoice() {
+            const choicesDiv = document.getElementById("choices");
+            if (choicesDiv.children.length > 2) {
+                choicesDiv.removeChild(choicesDiv.lastChild);
+            }
+        }
+
+        // 現在の日付を取得
+        var today = new Date();
+        // 年月日を取得
+        var year = today.getFullYear();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+        // 年月日をyyyy-mm-dd形式に整形
+        var formattedDate = year + '-' + month + '-' + day;
+        // input要素のvalueに設定
+        document.getElementById('myDate').value = formattedDate;
+    </script>
+{% endblock %}

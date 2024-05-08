@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block body %}
+    <h3>学習中のカード</h3>
+    <div style="margin-bottom: 1rem;">
+        <span class="badge rounded-pill" style="background-color: #c82c55;">単語: {{ articles_below_7 }}個</span> <span class="badge rounded-pill" style="background-color: #c82c55;">クイズ: {{ quizzes_below_7 }}個</span>
+    </div>
+        <form class="d-flex" action="{{ url_for("search_cards")}}" method="post" style="max-width: 20rem;">
+            <input class="form-control me-2" type="search" name="search" placeholder="#タグを検索" aria-label="search" required>
+            <button class="btn btn-outline-secondary rounded-pill" type="submit" name="current_page"  value="ongoing">search</button>
+        </form>
+    <hr>
+    {% for article in articles %}
+    <div class="form-container">
+        <form action="{{ url_for("post_cards_info2", article_id=article["id"]) }}" method="post">
+            <div class="card text-center border-light front" style="width: 20rem; background-color: #d42450;">
+                <div class="card-header">
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="article_state_change" value="OK" disabled>
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="article_state_change" value="NG" disabled>
+                    <button class="flip-button btn btn-outline-light rounded-circle p-0" style="width:2rem;height:2rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
+                        </svg>
+                    </button>
+                </div> 
+
+                <div class="card-body bg-white">
+                    <h2>{{ article["title"] }}</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">次回勉強日: {{article["study_date"]}}   
+                            {% if article["hash"] %}
+                                #{{ article["hash"] }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="progress" role="progressbar" aria-label="表" aria-valuenow="{{ article['num_times'] * 14 }}" aria-valuemin="0" aria-valuemax="100" style="height: 15px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ article['num_times'] * 14 }}%; background-color: #008db7;">あと{{ 8 - article['num_times'] }}回</div>
+                    </div> 
+                </div>
+                
+            </div>
+
+            <div class="card text-center border-light back" style="width: 20rem; background-color: #fc3768; display: none;">
+                <div class="card-header">
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="article_state_change" value="OK" disabled>
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="article_state_change" value="NG" disabled>
+                    <button class="flip-button btn btn-outline-light rounded-circle p-0" style="width:2rem;height:2rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
+                        </svg></button>
+                </div> 
+                <div class="card-body bg-white">
+                    <h2>{{ article["body"] }}</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">次回勉強日: {{article["study_date"]}}   
+                            {% if article["hash"] %}
+                                #{{ article["hash"] }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="progress" role="progressbar" aria-label="裏" aria-valuenow="{{ article['num_times'] * 14 }}" aria-valuemin="0" aria-valuemax="100" style="height: 15px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ article['num_times'] * 14 }}%; background-color: #008db7;">あと{{ 8 - article['num_times'] }}回</div>
+                    </div>
+                </div>
+        
+            </div>
+        </form>
+    </div>
+    <br>
+    {% endfor %}
+    <script>
+    const flipButtons = document.querySelectorAll(".flip-button");
+    flipButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            event.preventDefault();
+            const cardContainer = event.target.closest(".form-container");
+            const frontContent = cardContainer.querySelector(".front");
+            const backContent = cardContainer.querySelector(".back");
+    
+            if (backContent.style.display === "block") {
+                backContent.style.display = "none";
+                frontContent.style.display = "block";
+            } else {
+                frontContent.style.display = "none";
+                backContent.style.display = "block";
+            }
+        });
+    });
+    </script>
+
+    {% for quiz in quizzes %}
+        <form action="{{ url_for("post_quizzes_info2", quiz_id=quiz["id"]) }}" method="post">
+            <div class="card text-center border-light" style="width: 20rem; background-color: #d42450;">
+                <div class="card-header">
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="quiz_state_change" value="OK" disabled>
+                    <input type="submit" class="btn btn-outline-light rounded-pill" name="quiz_state_change" value="NG" disabled>
+                </div> 
+
+                <div class="card-body bg-white">
+                    <h4>{{ quiz["question"] }}</h4>
+                    <div class="d-grid gap-2 col-9 mx-auto">
+                        <button type="button" class="btn btn-secondary rounded-pill" name="correct" value="0" onclick="setFeedback(this, {{ quiz['correct'] }});">{{quiz["choice0"]}}</button>
+                        <button type="button" class="btn btn-secondary rounded-pill" name="correct" value="1" onclick="setFeedback(this, {{ quiz['correct'] }});">{{quiz["choice1"]}}</button>
+                        {% if quiz["choice2"] %}
+                            <button type="button" class="btn btn-secondary rounded-pill" name="correct" value="2" onclick="setFeedback(this, {{ quiz['correct']}});">{{quiz["choice2"]}}</button>
+                        {% endif %}
+                        {% if quiz["choice3"] %}
+                            <button type="button" class="btn btn-secondary rounded-pill" name="correct" value="3" onclick="setFeedback(this, {{ quiz['correct'] }});">{{quiz["choice3"]}}</button>
+                        {% endif %}
+                    </div>
+                    <div class="answer_position">
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">次回勉強日: {{quiz["study_date"]}}  
+                            {% if quiz["hash"] %}
+                                #{{ quiz["hash"] }}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="progress" role="progressbar" aria-label="クイズ" aria-valuenow="{{quiz['num_times'] * 14 }}" aria-valuemin="0" aria-valuemax="100" style="height: 15px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{quiz['num_times'] * 14 }}%; background-color: #008db7;">あと{{ 8 -quiz['num_times'] }}回</div>
+                    </div> 
+                </div>
+                
+            </div>
+        </form>
+        <br>
+    {% endfor %}
+    
+    {% if not articles %}
+        {% if not quizzes %}
+            <div class="alert alert-danger text-center position-absolute top-50 start-50 translate-middle" role="alert">
+                カードはありません
+            </div>
+        {% endif %}
+    {% endif %}
+    <script>
+        // ボタン要素を取得
+        const flipButton = document.getElementById("flip-button");
+    
+        // 表面と裏面のコンテンツを取得
+        const frontContent = document.getElementById("front");
+        const backContent = document.getElementById("back");
+    
+        // ボタンのクリックイベントを追加
+        flipButton.addEventListener("click", function (event) {
+        event.preventDefault(); // デフォルトの動作をキャンセル
+    
+        // 裏面が表示されている場合、表面に戻す
+        if (backContent.style.display === "block") {
+            backContent.style.display = "none";
+            frontContent.style.display = "block";
+        }
+        // 表面が表示されている場合、裏面に切り替え
+        else {
+            frontContent.style.display = "none";
+            backContent.style.display = "block";
+        }
+        });
+    </script>
+{% endblock %}
