@@ -2,6 +2,13 @@
 大学の授業(情報科学総合演習A)で作成した単語帳アプリケーションです。<br>
 エビングハウスの忘却曲線に基づくメカニズムで効率のよい暗記をサポートします。<br>
 
+# プレビュー
+<p>
+  <img width="309" alt="unfo_ホーム画面" src="https://github.com/ogaoga08/unfo_local/assets/131137413/c53b89a6-c4a7-45cf-8351-4f57acbec717">
+  <img width="311" alt="unfo_登録画面" src="https://github.com/ogaoga08/unfo_local/assets/131137413/2b9d47cc-4b12-4d5f-8944-825ec564ab42">
+  <img width="309" alt="unfo_記録画面" src="https://github.com/ogaoga08/unfo_local/assets/131137413/f7560295-f4b5-4199-b1b2-c5901e39e665">
+  <img width="309" alt="unfo_その他画面" src="https://github.com/ogaoga08/unfo_local/assets/131137413/1bf1d3bd-2548-4506-9005-87307cf54a72">
+</p>
 # 使用技術
 <p>
   <img src="https://img.shields.io/badge/-Html5-444444.svg?logo=html5&style=popout-square" height="40">
